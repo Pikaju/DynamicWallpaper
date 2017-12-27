@@ -4,6 +4,7 @@
 #include "math/Ray.h"
 
 #include <FastNoiseSIMD/FastNoiseSIMD/FastNoiseSIMD.h>
+#define STB_IMAGE_WRITE_IMPLEMENTATION
 #include <stb/stb_image_write.h>
 
 int main(int argc, char** argv)

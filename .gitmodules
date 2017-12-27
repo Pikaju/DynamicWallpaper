@@ -1,3 +1,6 @@
 [submodule "lib/src/FastNoiseSIMD"]
 	path = lib/src/FastNoiseSIMD
 	url = https://github.com/Auburns/FastNoiseSIMD.git
+[submodule "lib/src/stb"]
+	path = lib/src/stb
+	url = https://github.com/nothings/stb.git
