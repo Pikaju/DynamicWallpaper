@@ -2,6 +2,8 @@
 
 #include "Vec3.h"
 
+#define RAD(x) (x / 180.0 * 3.14159265)
+
 template<typename T>
 class Ray
 {
@@ -13,9 +15,9 @@ public:
 
     Ray(const Vec3<T> origin, T yaw, T pitch) : origin(origin)
     {
-        T rx = pitch;
-		T ry = yaw;
-		T cosrx = static_cast<T>(cos(rx));
+        double rx = RAD(pitch);
+		double ry = RAD(yaw);
+		double cosrx = cos(rx);
 		direction.x = static_cast<T>(sin(ry) * cosrx);
 		direction.y = static_cast<T>(sin(rx));
 		direction.z = static_cast<T>(cos(ry) * cosrx);
