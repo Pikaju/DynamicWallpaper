@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Vec3.h"
+
 template<typename T>
 class Ray
 {
