@@ -1,5 +1,7 @@
 #pragma once
 
+#include <math.h>
+
 #include "Vec3.h"
 
 #define RAD(x) (x / 180.0 * 3.14159265)
