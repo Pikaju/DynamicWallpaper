@@ -1,0 +1,3 @@
+[submodule "lib/src/FastNoiseSIMD"]
+	path = lib/src/FastNoiseSIMD
+	url = https://github.com/Auburns/FastNoiseSIMD.git
