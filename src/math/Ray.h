@@ -23,3 +23,7 @@ public:
 
     inline Vec3<T> march(float distance) const { return origin + direction * distance; }
 };
+
+typedef Ray<int> Rayi;
+typedef Ray<float> Rayf;
+typedef Ray<double> Rayd;
