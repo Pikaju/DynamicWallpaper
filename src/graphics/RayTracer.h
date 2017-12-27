@@ -2,11 +2,11 @@
 
 #include "../math/Vec3.h"
 
-class Raytracer
+class RayTracer
 {
 public:
-    Raytracer();
-    ~Raytracer();
+    RayTracer();
+    ~RayTracer();
 private:
     void traceDirection(const Vec3& direction);
 };
