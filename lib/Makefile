@@ -1,20 +1,29 @@
 CC = g++
 CC_FLAGS = -std=c++11
 
-LIBRARY = $(OBJECT_DIRECTORY)/FastNoiseSIMD.a
 
 SOURCE_DIRECTORY = src
 OBJECT_DIRECTORY = bin
 
-SOURCES = $(shell find $(SOURCE_DIRECTORY) -name "*.cpp")
-OBJECTS = $(SOURCES:$(SOURCE_DIRECTORY)/%.cpp=$(OBJECT_DIRECTORY)/%.o)
+FASTNOISE_SIMD_SOURCES = $(shell find $(SOURCE_DIRECTORY)/FastNoiseSIMD -name "*.cpp")
+FASTNOISE_SIMD_OBJECTS = $(FASTNOISE_SIMD_SOURCES:$(SOURCE_DIRECTORY)/%.cpp=$(OBJECT_DIRECTORY)/%.o)
+
+STB_SOURCES = $(shell find $(SOURCE_DIRECTORY)/stb -name "*.cpp")
+STB_OBJECTS = $(STB_SOURCES:$(SOURCE_DIRECTORY)/%.cpp=$(OBJECT_DIRECTORY)/%.o)
 
 
-$(LIBRARY): $(OBJECTS)
+all: $(OBJECT_DIRECTORY)/FastNoiseSIMD.a $(OBJECT_DIRECTORY)/stb_image_write.a
+
+$(OBJECT_DIRECTORY)/FastNoiseSIMD.a: $(FASTNOISE_SIMD_OBJECTS)
 	mkdir -p "$(@D)"
-	ar crf $(LIBRARY) $(OBJECTS)
+	ar crf $@ $(FASTNOISE_SIMD_OBJECTS)
 
-# Special flags from the GitHub site
+$(OBJECT_DIRECTORY)/stb_image_write.a: $(STB_OBJECTS)
+	mkdir -p "$(@D)"
+	ar crf $@ $(STB_OBJECTS)
+
+
+# Special flags from the FastNoiseSIMD GitHub site
 
 $(OBJECT_DIRECTORY)/FastNoiseSIMD/FastNoiseSIMD/FastNoiseSIMD_sse2.o: $(SOURCE_DIRECTORY)/FastNoiseSIMD/FastNoiseSIMD/FastNoiseSIMD_sse2.cpp
 	mkdir -p "$(@D)"
@@ -35,5 +44,4 @@ $(OBJECT_DIRECTORY)/%.o: $(SOURCE_DIRECTORY)/%.cpp
 	$(CC) $(CC_FLAGS) -c $< -o $@
 
 clean:
-	rm -f $(LIBRARY)
 	rm -rf $(OBJECT_DIRECTORY)
