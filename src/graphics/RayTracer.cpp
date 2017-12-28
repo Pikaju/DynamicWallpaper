@@ -29,5 +29,6 @@ void RayTracer::traceFullImage(RGBImage& image, Camera<float>& camera, const Ray
 Vec3f RayTracer::traceRay(const Rayf& ray, const RayTracable* object) const
 {
     TraceResult result = object->trace(ray);
-    return result.intersects ? Vec3f(1.0f - (result.distance / 256.0f)) : Vec3f(0.0f);
+    Vec3f sky(0.2f, 0.8f, 0.7f);
+    return result.intersects ? Vec3f((result.distance / 512.0f)) * sky : sky;
 }
