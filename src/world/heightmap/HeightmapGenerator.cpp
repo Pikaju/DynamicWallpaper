@@ -6,7 +6,7 @@ void HeightmapGenerator::generate(Heightmap& heightmap)
 {
     FastNoiseSIMD* noise = FastNoiseSIMD::NewFastNoiseSIMD();
     noise->SetFractalOctaves(6);
-    noise->SetFrequency(0.005f);
+    noise->SetFrequency(0.003f);
 
     for (unsigned int x = 0; x < heightmap.m_width; x++) {
         for (unsigned int z = 0; z < heightmap.m_length; z++) {
