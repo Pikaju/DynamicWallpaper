@@ -22,6 +22,9 @@ public:
     inline void normalize() { this->operator/=(length()); }
     inline Vec3<T> normalized() const { return this->operator/(length()); }
 
+    inline T dot(const Vec3<T>& v) const { return x * v.x + y * v.y + z * v.z; }
+    inline Vec3<T> cross(const Vec3<T>& v) const { return Vec3<T>(y * v.z - z * v.y, z * v.x - x * v.z, x * v.y - y * v.x); }
+
     inline Vec3<T> operator+(const Vec3<T>& v) const { return Vec3(x + v.x, y + v.y, z + v.z); }
     inline Vec3<T> operator-(const Vec3<T>& v) const { return Vec3(x - v.x, y - v.y, z - v.z); }
     inline Vec3<T> operator*(const Vec3<T>& v) const { return Vec3(x * v.x, y * v.y, z * v.z); }
