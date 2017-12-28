@@ -5,11 +5,11 @@
 
 int main(int argc, char** argv)
 {
-    RGBImage image(720, 480);
+    RGBImage image(1280, 720);
     float aspectRatio = static_cast<float>(image.getWidth()) / static_cast<float>(image.getHeight());
-    Camera<float> camera(Vec3f(0.0f, 32.0f, 0.0f), 45.0f, 0.0f, 90.0f / aspectRatio, aspectRatio);
+    Camera<float> camera(Vec3f(0.0f, 32.0f, 0.0f), 45.0f, -10.0f, 90.0f / aspectRatio, aspectRatio);
 
-    Heightmap heightmap(4, 4);
+    Heightmap heightmap(8, 8);
     HeightmapGenerator::generate(heightmap);
 
     RayTracer rayTracer;
