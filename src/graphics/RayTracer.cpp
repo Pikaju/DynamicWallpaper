@@ -34,5 +34,5 @@ Vec3f RayTracer::traceRay(const Rayf& ray, const RayTracable* object) const
 {
     TraceResult result = object->trace(ray);
     Vec3f sky(0.2f, 0.8f, 0.7f);
-    return result.intersects ? LERP(result.diffuseColor, sky, result.distance / 512.0f) : sky;
+    return result.intersects ? LERP(result.diffuseColor, sky, result.distance / (sqrt(512.0f * 512.0f * 2.0f))) : sky;
 }
