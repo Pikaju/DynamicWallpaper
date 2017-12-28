@@ -25,13 +25,16 @@ TraceResult Heightmap::trace(const Rayf& ray) const
     TraceResult result;
     float range = getGridWidth();
     float step = 1.0f;
-    for (float distance = 0.0f; distance <= range; distance += step) {
+    float stepMultiplier = 1.0f;
+    for (float distance = 0.0f; distance <= range; distance += step * stepMultiplier) {
         Vec3f currentPosition = ray.march(distance);
-        if (currentPosition.y <= getHeightInterpolated(currentPosition.x, currentPosition.z)) {
+        float height = getHeightInterpolated(currentPosition.x, currentPosition.z);
+        if (currentPosition.y <= height) {
             result.intersects = true;
             result.distance = distance;
             return result;
         }
+        stepMultiplier = (currentPosition.y - height) / 2.0f + 0.125f;
     }
     result.intersects = false;
     return result;
