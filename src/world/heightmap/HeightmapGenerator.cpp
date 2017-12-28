@@ -11,6 +11,8 @@ void HeightmapGenerator::generate(Heightmap& heightmap)
             generateChunk(heightmap.getChunkAt(x, z), x, z, noise);
         }
     }
+
+    delete noise;
 }
 
 void HeightmapGenerator::generateChunk(Chunk<CHUNK_SIZE>* chunk, int cx, int cz, FastNoiseSIMD* noise)
