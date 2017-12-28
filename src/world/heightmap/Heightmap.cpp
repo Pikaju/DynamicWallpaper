@@ -23,12 +23,11 @@ Heightmap::~Heightmap()
 TraceResult Heightmap::trace(const Rayf& ray) const
 {
     TraceResult result;
-    float range = getGridWidth();
     float step = 1.0f;
     float stepMultiplier = 1.0f;
     float maxSlope = 2.0f;
 
-    for (float distance = 0.0f; distance <= range; distance += step * stepMultiplier) {
+    for (float distance = 0.0f; ; distance += step * stepMultiplier) {
         Vec3f currentPosition = ray.march(distance);
 
         if (currentPosition.x < 0.0f || currentPosition.z < 0.0f || currentPosition.x > getGridWidth() - 1 || currentPosition.z > getGridLength() - 1) {
