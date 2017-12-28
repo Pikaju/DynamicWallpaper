@@ -1,16 +1,19 @@
 #include <iostream>
 
 #include "graphics/RayTracer.h"
-#include "graphics/Sphere.h"
+#include "world/heightmap/HeightmapGenerator.h"
 
 int main(int argc, char** argv)
 {
     RGBImage image(720, 480);
-    Camera<float> camera(Vec3f(), 70.0f, static_cast<float>(image.getWidth()) / static_cast<float>(image.getHeight()));
-    Sphere sphere(Vec3f(0.2f, 0.1f, 4.0f), 1.0f);
+    float aspectRatio = static_cast<float>(image.getWidth()) / static_cast<float>(image.getHeight());
+    Camera<float> camera(Vec3f(0.0f, 32.0f, 0.0f), 45.0f, 0.0f, 90.0f / aspectRatio, aspectRatio);
+
+    Heightmap heightmap(4, 4);
+    HeightmapGenerator::generate(heightmap);
 
     RayTracer rayTracer;
-    rayTracer.traceFullImage(image, camera, &sphere);
+    rayTracer.traceFullImage(image, camera, &heightmap);
 
     image.writeToJPEG("Preview.jpg", 100);
 

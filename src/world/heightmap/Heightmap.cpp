@@ -18,15 +18,34 @@ Heightmap::~Heightmap()
     }
 }
 
+#include <iostream>
+
+TraceResult Heightmap::trace(const Rayf& ray) const
+{
+    TraceResult result;
+    float range = getGridWidth();
+    float step = 1.0f;
+    for (float distance = 0.0f; distance <= range; distance += step) {
+        Vec3f currentPosition = ray.march(distance);
+        if (currentPosition.y <= getHeightInterpolated(currentPosition.x, currentPosition.z)) {
+            result.intersects = true;
+            result.distance = distance;
+            return result;
+        }
+    }
+    result.intersects = false;
+    return result;
+}
+
 float Heightmap::getHeightAt(unsigned int x, unsigned int z) const
 {
-    const Chunk<CHUNK_SIZE>* chunk = getChunkAt(x / m_width, z / m_length);
+    const Chunk<CHUNK_SIZE>* chunk = getChunkAt(x / CHUNK_SIZE, z / CHUNK_SIZE);
     return chunk->getHeightAt(x % CHUNK_SIZE, z % CHUNK_SIZE);
 }
 
 float Heightmap::getHeightInterpolated(float x, float z) const
 {
-    if (x < 0.0f || z < 0.0f || x > m_width - 1 || z > m_length - 1) {
+    if (x < 0.0f || z < 0.0f || x > getGridWidth() - 1 || z > getGridLength() - 1) {
         return 0.0f;
     }
     float h00 = getHeightAt(static_cast<unsigned int>(floor(x)), static_cast<unsigned int>(floor(z)));
