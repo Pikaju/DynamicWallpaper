@@ -18,12 +18,16 @@ void RayTracer::traceFullImage(RGBImage& image, Camera<float>& camera, const Ray
             float dy = -(static_cast<float>(y) / static_cast<float>(image.getHeight() - 1) * 2.0f - 1.0f);
 
             Rayf ray = camera.getViewRay(dx, dy);
-            image.setRGB(x, y, traceRay(ray, object));
+            Vec3f color = traceRay(ray, object);
+            image.setRed(x, y, static_cast<unsigned char>(color.x * 255.0f));
+            image.setGreen(x, y, static_cast<unsigned char>(color.y * 255.0f));
+            image.setBlue(x, y, static_cast<unsigned char>(color.z * 255.0f));
         }
     }
 }
 
-unsigned int RayTracer::traceRay(const Rayf& ray, const RayTracable* object) const
+Vec3f RayTracer::traceRay(const Rayf& ray, const RayTracable* object) const
 {
-    return object->trace(ray).intersects ? 0x20a090 : 0;
+    TraceResult result = object->trace(ray);
+    return result.intersects ? Vec3f(1.0f / (result.distance + 1.0f)) : Vec3f(0.0f);
 }

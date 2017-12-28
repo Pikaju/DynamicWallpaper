@@ -12,5 +12,5 @@ public:
 
     void traceFullImage(RGBImage& image, Camera<float>& camera, const RayTracable* object) const;
 private:
-    unsigned int traceRay(const Rayf& ray, const RayTracable* object) const;
+    Vec3f traceRay(const Rayf& ray, const RayTracable* object) const;
 };
