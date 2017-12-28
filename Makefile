@@ -26,7 +26,11 @@ $(OBJECT_DIRECTORY)/%.o: $(SOURCE_DIRECTORY)/%.cpp
 run: $(EXECUTABLE)
 	./$(EXECUTABLE)
 
-clean:
+clean_libraries:
 	$(MAKE) clean -C $(LIBRARY_DIRECTORY)
-	rm -f $(EXECUTABLE)
+
+clean_bin:
 	rm -rf $(OBJECT_DIRECTORY)
+
+clean: clean_libraries clean_bin
+	rm -f $(EXECUTABLE)
