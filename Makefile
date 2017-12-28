@@ -12,7 +12,7 @@ SOURCES = $(shell find $(SOURCE_DIRECTORY) -name "*.cpp")
 OBJECTS = $(SOURCES:$(SOURCE_DIRECTORY)/%.cpp=$(OBJECT_DIRECTORY)/%.o)
 
 
-$(EXECUTABLE): $(OBJECTS) $(LIBRARY_DIRECTORY)/bin/FastNoiseSIMD.a $(LIBRARY_DIRECTORY)/bin/stb_image_write.a
+$(EXECUTABLE): $(OBJECTS) $(LIBRARY_DIRECTORY)/bin/FastNoiseSIMD.a
 	$(CC) $(CC_FLAGS) $(OBJECTS) $(wildcard $(LIBRARY_DIRECTORY)/bin/*.a) -o $(EXECUTABLE)
 
 $(LIBRARY_DIRECTORY)/bin/%.a:
