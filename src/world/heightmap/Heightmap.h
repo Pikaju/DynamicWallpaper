@@ -8,6 +8,7 @@ static const unsigned int CHUNK_SIZE = 64;
 
 class Heightmap
 {
+    friend class HeightmapGenerator;
 public:
     Heightmap(unsigned int width, unsigned int length);
     ~Heightmap();
@@ -18,6 +19,7 @@ public:
     inline unsigned int getGridWidth() const { return m_width * CHUNK_SIZE; }
     inline unsigned int getGridLength() const { return m_length * CHUNK_SIZE; }
 private:
+    inline Chunk<CHUNK_SIZE>* getChunkAt(unsigned int x, unsigned int z) { return m_chunks[x + z * m_length]; }
     inline const Chunk<CHUNK_SIZE>* getChunkAt(unsigned int x, unsigned int z) const { return m_chunks[x + z * m_length]; }
 
     unsigned int m_width;
