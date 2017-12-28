@@ -4,8 +4,8 @@
 #include "math/Ray.h"
 
 #include <FastNoiseSIMD/FastNoiseSIMD/FastNoiseSIMD.h>
-#define STB_IMAGE_WRITE_IMPLEMENTATION
-#include <stb/stb_image_write.h>
+
+#include "util/Image.h"
 
 int main(int argc, char** argv)
 {
@@ -15,23 +15,23 @@ int main(int argc, char** argv)
     float* noiseSet = myNoise->GetSimplexFractalSet(0, 0, 0, 256, 256, 1, 1.5f);
     int index = 0;
 
-    unsigned char image[256 * 256 * 3];
+    RGBImage image(256, 256);
 
-    for (int x = 0; x < 256; x++)
+    for (int x = 0; x < image.getWidth(); x++)
     {
-        for (int y = 0; y < 256; y++)
+        for (int y = 0; y < image.getHeight(); y++)
         {
             for (int z = 0; z < 1; z++)
             {
                 std::cout << noiseSet[index++] << std::endl;
-                image[(x + y * 256) * 3 + 0] = noiseSet[index] * 127 + 128;
-                image[(x + y * 256) * 3 + 1] = noiseSet[index] * 127 + 128;
-                image[(x + y * 256) * 3 + 2] = noiseSet[index] * 127 + 128;
+                image.setRed(x, y, noiseSet[index] * 127 + 128);
+                image.setGreen(x, y, noiseSet[index] * 127 + 128);
+                image.setBlue(x, y, noiseSet[index] * 127 + 128);
             }
         }
     }
 
-    stbi_write_jpg("test.jpg", 256, 256, 3, reinterpret_cast<float*>(image), 90);
+    image.writeToJPEG("test.jpg", 90);
 
     FastNoiseSIMD::FreeNoiseSet(noiseSet);
 
