@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Vec3.h"
+#include "Ray.h"
 
 template<typename T>
 class Camera
