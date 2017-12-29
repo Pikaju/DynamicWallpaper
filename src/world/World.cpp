@@ -2,9 +2,9 @@
 
 #include "heightmap/HeightmapGenerator.h"
 
-World::World(unsigned int width, unsigned int length) : m_heightmap(width, length), m_sky(), m_fog(), m_water(-20.0f)
+World::World(unsigned int width, unsigned int length, unsigned int seed) : m_heightmap(width, length), m_sky(), m_fog(), m_water(-20.0f)
 {
-    HeightmapGenerator::generate(m_heightmap);
+    HeightmapGenerator::generate(m_heightmap, seed);
 }
 
 World::~World()
@@ -19,7 +19,7 @@ TraceResult World::trace(const Rayf& ray, const TraceParamter& parameter) const
 
     const float STEP = 0.5f;
     const float MAX_SLOPE = 1.7f;
-    const float ZNEAR = 0.0f;
+    const float ZNEAR = 0.125f;
 
     float stepMultiplier = 1.0f;
 
@@ -64,7 +64,7 @@ TraceResult World::trace(const Rayf& ray, const TraceParamter& parameter) const
                 result.distance = distance;
 
                 // Lighting
-                Vec3f lightDirection = Vec3f(-0.8f, -0.5f, 0.2f).normalized();
+                Vec3f lightDirection = m_sky.getLightDirection();
                 Vec3f diffuseColor(0.2, 0.2f, 0.2f);
                 //if (height > 16.0f) diffuseColor = Vec3f(1.0f);
                 Vec3f normal = m_heightmap.getNormalAt(currentPosition.x, currentPosition.z);
@@ -77,7 +77,7 @@ TraceResult World::trace(const Rayf& ray, const TraceParamter& parameter) const
                 }
                 float light = angle > 0.0f ? (angle > 0.3f ? (angle > 0.6f ? 1.0f : 0.8f) : 0.5f) : 0.3f;
 
-                diffuseColor *= light;
+                //diffuseColor *= light;
                 diffuseColor *= 0.3f;
 
                 // Apply fog
@@ -96,7 +96,7 @@ TraceResult World::trace(const Rayf& ray, const TraceParamter& parameter) const
 
 bool World::inShadow(const Vec3f& position) const
 {
-    Vec3f lightDirection = Vec3f(-0.8f, -0.5f, 0.2f).normalized();
+    Vec3f lightDirection = m_sky.getLightDirection();
     TraceParamter shadowParameter;
     shadowParameter.intersectionOnly = true;
     TraceResult shadowResult = trace(Rayf(position, lightDirection * -1.0f), shadowParameter);

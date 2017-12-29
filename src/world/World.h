@@ -8,7 +8,7 @@
 class World : public RayTracable
 {
 public:
-    World(unsigned int width, unsigned int length);
+    World(unsigned int width, unsigned int length, unsigned int seed);
     ~World();
 
     TraceResult trace(const Rayf& ray, const TraceParamter& parameter) const override;
