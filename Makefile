@@ -1,5 +1,5 @@
 CC = g++
-CC_FLAGS = -I$(INCLUDE_DIRECTORY)
+CC_FLAGS = -std=c++17 -I$(INCLUDE_DIRECTORY)
 
 EXECUTABLE = executable
 
