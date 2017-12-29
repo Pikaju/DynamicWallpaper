@@ -1,6 +1,7 @@
 #include <iostream>
 
 #include "graphics/RayTracer.h"
+#include "graphics/effect/NoiseDitheringEffect.h"
 #include "world/World.h"
 
 #include <string>
@@ -16,7 +17,10 @@ int main(int argc, char** argv)
     RayTracer rayTracer;
     rayTracer.traceFullImage(image, camera, &world);
 
-    image.writeToJPEG("Preview.jpg", 90);
+    NoiseDitheringEffect noiseDithering;
+    noiseDithering.apply(image);
+
+    image.writeToJPEG("Preview.jpg", 100);
 
     return 0;
 }
