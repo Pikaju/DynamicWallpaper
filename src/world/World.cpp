@@ -2,9 +2,7 @@
 
 #include "heightmap/HeightmapGenerator.h"
 
-#define LERP(a, b, x) (a + (b - a) * x)
-
-World::World(unsigned int width, unsigned int length) : m_heightmap(width, length), m_sky(), m_water(-20.0f)
+World::World(unsigned int width, unsigned int length) : m_heightmap(width, length), m_sky(), m_fog(), m_water(-20.0f)
 {
     HeightmapGenerator::generate(m_heightmap);
 }
@@ -31,12 +29,18 @@ TraceResult World::trace(const Rayf& ray) const
 
         // Water surface
         if (currentPosition.y < m_water.getHeight()) {
+            // Trace reflected ray
             Rayf reflectedRay(currentPosition, ray.direction * Vec3f(1.0f, -1.0f, 1.0f));
             reflectedRay.origin.y = m_water.getHeight();
             result = trace(reflectedRay);
+
             result.distance += distance;
+
+            // Absorb light
             result.color = (result.color + Vec3f(0.2f, 0.4f, 0.6f)) * Vec3f(0.3f);
-            result.color = LERP(result.color, m_sky.getColor(), distance / (sqrt(512.0f * 512.0f * 2.0f)));
+
+            // Apply fog
+            result.color = m_fog.applyFog(result.color, m_sky, ray.origin, currentPosition);
             return result;
         }
 
@@ -48,7 +52,11 @@ TraceResult World::trace(const Rayf& ray) const
             if (currentPosition.y <= height) {
                 result.intersects = true;
                 result.distance = distance;
-                result.color = LERP(Vec3f(0.1f, 0.1f, 0.1f), m_sky.getColor(), result.distance / (sqrt(512.0f * 512.0f * 2.0f)));
+
+                Vec3f diffuseColor(0.1f);
+
+                // Apply fog
+                result.color = m_fog.applyFog(diffuseColor, m_sky, ray.origin, currentPosition);
                 return result;
             }
         }
