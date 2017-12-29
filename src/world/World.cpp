@@ -2,7 +2,7 @@
 
 #include "heightmap/HeightmapGenerator.h"
 
-World::World(unsigned int width, unsigned int length) : m_heightmap(width, length)
+World::World(unsigned int width, unsigned int length) : m_heightmap(width, length), m_water(-20.0f)
 {
     HeightmapGenerator::generate(m_heightmap);
 }
@@ -11,15 +11,12 @@ World::~World()
 {
 }
 
-#include <iostream>
-
 TraceResult World::trace(const Rayf& ray) const
 {
     TraceResult result;
 
     const float STEP = 1.0f;
     const float MAX_SLOPE = 1.7f;
-    const float WATER_HEIGHT = -20.0f;
 
     float stepMultiplier = 1.0f;
 
@@ -31,9 +28,9 @@ TraceResult World::trace(const Rayf& ray) const
         }
 
         // Water surface
-        if (currentPosition.y < WATER_HEIGHT) {
+        if (currentPosition.y < m_water.getHeight()) {
             Rayf reflectedRay(currentPosition, ray.direction * Vec3f(1.0f, -1.0f, 1.0f));
-            reflectedRay.origin.y = WATER_HEIGHT;
+            reflectedRay.origin.y = m_water.getHeight();
             result = trace(reflectedRay);
             result.distance += distance;
             result.diffuseColor = result.diffuseColor * Vec3f(0.25f) + Vec3f(0.1f, 0.2f, 0.2f);
@@ -54,7 +51,7 @@ TraceResult World::trace(const Rayf& ray) const
         }
 
         // Set step multiplier based on distance to surface for performance increase
-        stepMultiplier = (currentPosition.y - std::max(height, WATER_HEIGHT)) / MAX_SLOPE + 0.125f;
+        stepMultiplier = (currentPosition.y - std::max(height, m_water.getHeight())) / MAX_SLOPE + 0.125f;
     }
     result.intersects = false;
     return result;

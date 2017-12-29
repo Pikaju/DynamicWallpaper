@@ -1,6 +1,7 @@
 #pragma once
 
 #include "heightmap/Heightmap.h"
+#include "Water.h"
 
 class World : public RayTracable
 {
@@ -12,4 +13,5 @@ public:
 
 private:
     Heightmap m_heightmap;
+    Water m_water;
 };
