@@ -35,8 +35,8 @@ TraceResult World::trace(const Rayf& ray) const
             reflectedRay.origin.y = m_water.getHeight();
             result = trace(reflectedRay);
             result.distance += distance;
-            result.color = result.color * Vec3f(0.25f) + Vec3f(0.1f, 0.2f, 0.2f);
-            result.color = LERP(result.color, m_sky.getColor(), result.distance / (sqrt(512.0f * 512.0f * 2.0f)));
+            result.color = (result.color + Vec3f(0.2f, 0.4f, 0.6f)) * Vec3f(0.3f);
+            result.color = LERP(result.color, m_sky.getColor(), distance / (sqrt(512.0f * 512.0f * 2.0f)));
             return result;
         }
 
