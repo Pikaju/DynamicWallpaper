@@ -6,8 +6,7 @@ struct TraceResult
 {
     bool intersects;
     float distance;
-    
-    Vec3f diffuseColor;
+    Vec3f color;
 };
 
 class RayTracable

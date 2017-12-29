@@ -2,7 +2,9 @@
 
 #include "heightmap/HeightmapGenerator.h"
 
-World::World(unsigned int width, unsigned int length) : m_heightmap(width, length), m_water(-20.0f)
+#define LERP(a, b, x) (a + (b - a) * x)
+
+World::World(unsigned int width, unsigned int length) : m_heightmap(width, length), m_sky(), m_water(-20.0f)
 {
     HeightmapGenerator::generate(m_heightmap);
 }
@@ -33,7 +35,8 @@ TraceResult World::trace(const Rayf& ray) const
             reflectedRay.origin.y = m_water.getHeight();
             result = trace(reflectedRay);
             result.distance += distance;
-            result.diffuseColor = result.diffuseColor * Vec3f(0.25f) + Vec3f(0.1f, 0.2f, 0.2f);
+            result.color = result.color * Vec3f(0.25f) + Vec3f(0.1f, 0.2f, 0.2f);
+            result.color = LERP(result.color, m_sky.getColor(), result.distance / (sqrt(512.0f * 512.0f * 2.0f)));
             return result;
         }
 
@@ -45,7 +48,7 @@ TraceResult World::trace(const Rayf& ray) const
             if (currentPosition.y <= height) {
                 result.intersects = true;
                 result.distance = distance;
-                result.diffuseColor = Vec3f(0.1f, 0.1f, 0.1f);
+                result.color = LERP(Vec3f(0.1f, 0.1f, 0.1f), m_sky.getColor(), result.distance / (sqrt(512.0f * 512.0f * 2.0f)));
                 return result;
             }
         }
@@ -54,5 +57,6 @@ TraceResult World::trace(const Rayf& ray) const
         stepMultiplier = (currentPosition.y - std::max(height, m_water.getHeight())) / MAX_SLOPE + 0.125f;
     }
     result.intersects = false;
+    result.color = m_sky.getColor();
     return result;
 }
