@@ -37,3 +37,15 @@ float Heightmap::getHeightInterpolated(float x, float z) const
     float fz = z - floor(z);
     return LERP(LERP(h00, h10, fx), LERP(h01, h11, fx), fz);
 }
+
+Vec3f Heightmap::getNormalAt(float x, float z) const
+{
+    const float KERNEL_RADIUS = 0.5f;
+    Vec3f p00(x - KERNEL_RADIUS, getHeightInterpolated(x - KERNEL_RADIUS, z - KERNEL_RADIUS), z - KERNEL_RADIUS);
+    Vec3f p01(x - KERNEL_RADIUS, getHeightInterpolated(x - KERNEL_RADIUS, z + KERNEL_RADIUS), z + KERNEL_RADIUS);
+    Vec3f p10(x + KERNEL_RADIUS, getHeightInterpolated(x + KERNEL_RADIUS, z - KERNEL_RADIUS), z - KERNEL_RADIUS);
+
+    Vec3f e0 = (p01 - p00).normalized();
+    Vec3f e1 = (p10 - p00).normalized();
+    return e0.cross(e1);
+}

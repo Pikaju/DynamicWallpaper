@@ -11,8 +11,10 @@ public:
     World(unsigned int width, unsigned int length);
     ~World();
 
-    TraceResult trace(const Rayf& ray) const override;
+    TraceResult trace(const Rayf& ray, const TraceParamter& parameter) const override;
 
+    bool inShadow(const Vec3f& position) const;
+    inline float getShadowMultiplier(const Vec3f& position) const { return inShadow(position) ? 0.9f : 1.0f; }
 
 private:
     Heightmap m_heightmap;

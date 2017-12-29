@@ -31,6 +31,7 @@ void RayTracer::traceFullImage(RGBImage& image, Camera<float>& camera, const Ray
 
 Vec3f RayTracer::traceRay(const Rayf& ray, const RayTracable* object) const
 {
-    TraceResult result = object->trace(ray);
+    TraceParamter parameter;
+    TraceResult result = object->trace(ray, parameter);
     return result.color;
 }

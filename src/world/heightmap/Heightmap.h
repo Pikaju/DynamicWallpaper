@@ -16,6 +16,7 @@ public:
 
     float getHeightAt(unsigned int x, unsigned int z) const;
     float getHeightInterpolated(float x, float z) const;
+    Vec3f getNormalAt(float x, float z) const;
 
     inline unsigned int getGridWidth() const { return m_width * CHUNK_SIZE; }
     inline unsigned int getGridLength() const { return m_length * CHUNK_SIZE; }
