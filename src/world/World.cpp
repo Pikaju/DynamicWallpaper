@@ -45,7 +45,7 @@ TraceResult World::trace(const Rayf& ray, const TraceParamter& parameter) const
             result.distance += distance;
 
             // Absorb light
-            result.color = (result.color + Vec3f(0.2f, 0.3f, 0.4f)) * Vec3f(0.5f);
+            result.color = (result.color + Vec3f(0.2f, 0.3f, 0.4f)) * Vec3f(0.3f);
 
             // Apply fog
             result.color = m_fog.applyFog(result.color, m_sky, ray.origin, currentPosition);
@@ -90,7 +90,7 @@ TraceResult World::trace(const Rayf& ray, const TraceParamter& parameter) const
         stepMultiplier = (currentPosition.y - std::max(height, m_water.getHeight())) / MAX_SLOPE + 0.125f;
     }
     result.intersects = false;
-    result.color = m_sky.getColor();
+    result.color = m_sky.getColor(ray.direction);
     return result;
 }
 
