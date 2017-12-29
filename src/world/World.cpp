@@ -11,8 +11,6 @@ World::~World()
 {
 }
 
-#include <iostream>
-
 TraceResult World::trace(const Rayf& ray, const TraceParamter& parameter) const
 {
     TraceResult result;
@@ -45,7 +43,7 @@ TraceResult World::trace(const Rayf& ray, const TraceParamter& parameter) const
             result.distance += distance;
 
             // Absorb light
-            result.color = (result.color + Vec3f(0.2f, 0.3f, 0.4f)) * Vec3f(0.3f);
+            result.color = (result.color + Vec3f(0.2f, 0.3f, 0.4f) * 0.4f) * Vec3f(0.8f);
 
             // Apply fog
             result.color = m_fog.applyFog(result.color, m_sky, ray.origin, currentPosition);
@@ -75,10 +73,11 @@ TraceResult World::trace(const Rayf& ray, const TraceParamter& parameter) const
                 if (angle > 0.0f && inShadow(Vec3f(currentPosition.x, height, currentPosition.z))) {
                     angle = -1.0f;
                 }
-                float light = angle > 0.0f ? (angle > 0.3f ? (angle > 0.6f ? 1.0f : 0.8f) : 0.5f) : 0.3f;
+                float light = angle > 0.0f ? (angle > 0.3f ? (angle > 0.6f ? 1.0f : 0.66f) : 0.33f) : 0.0f;
+                light = light * 0.25f + 0.75f;
 
-                //diffuseColor *= light;
-                diffuseColor *= 0.3f;
+                diffuseColor *= light;
+                diffuseColor *= 0.6f;
 
                 // Apply fog
                 result.color = m_fog.applyFog(diffuseColor, m_sky, ray.origin, currentPosition);
