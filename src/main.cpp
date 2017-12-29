@@ -1,7 +1,7 @@
 #include <iostream>
 
 #include "graphics/RayTracer.h"
-#include "world/heightmap/HeightmapGenerator.h"
+#include "world/World.h"
 
 int main(int argc, char** argv)
 {
@@ -9,11 +9,10 @@ int main(int argc, char** argv)
     float aspectRatio = static_cast<float>(image.getWidth()) / static_cast<float>(image.getHeight());
     Camera<float> camera(Vec3f(0.0f, 32.0f, 0.0f), 45.0f, -10.0f, 90.0f / aspectRatio, aspectRatio);
 
-    Heightmap heightmap(8, 8);
-    HeightmapGenerator::generate(heightmap);
+    World world(8, 8);
 
     RayTracer rayTracer;
-    rayTracer.traceFullImage(image, camera, &heightmap);
+    rayTracer.traceFullImage(image, camera, &world);
 
     image.writeToJPEG("Preview.jpg", 100);
 
