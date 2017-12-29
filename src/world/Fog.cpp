@@ -20,15 +20,8 @@ Vec3f Fog::applyFog(const Vec3f& color, const Sky& sky, const Vec3f& p0, const V
     direction.y = 0.0f;
     float horizontalDistance = direction.length();
 
-    // Ground fog
-    const float groundFogHeight = -8.0f;
-
     float high = std::max(p0.y, p1.y);
     float low = std::min(p0.y, p1.y);
-    float percentageInFog = CLAMP((groundFogHeight - low) / (high - low), 0.0f, 1.0f);
-    float distanceInGroundFog = distance * percentageInFog;
-    float depthMultiplier = std::max(groundFogHeight - low, 0.0f) / 8.0f;
-
 
     float fog = fogAntiderivative(high) - fogAntiderivative(low);
     fog *= horizontalDistance / (high - low);
