@@ -31,21 +31,20 @@ TraceResult World::trace(const Rayf& ray, const TraceParamter& parameter) const
         }
 
         // Water surface
-        if (currentPosition.y < m_water.getHeight()) {
+        if (m_water.isInWater(currentPosition)) {
+            // Don't calculate reflections if it isn't necessary
             if (parameter.intersectionOnly) {
                 result.intersects = true;
                 return result;
             }
 
             // Trace reflected ray
-            Rayf reflectedRay(currentPosition, ray.direction * Vec3f(1.0f, -1.0f, 1.0f));
-            reflectedRay.origin.y = m_water.getHeight();
-            result = trace(reflectedRay, parameter);
+            result = trace(m_water.reflectRay(currentPosition, ray.direction), parameter);
 
             result.distance += distance;
 
             // Absorb light
-            result.color = (result.color + Vec3f(0.2f, 0.3f, 0.4f) * 0.4f) * Vec3f(0.6f);
+            result.color = m_water.reflectColor(result.color);
 
             // Apply fog
             result.color = m_fog.applyFog(result.color, m_sky, ray.origin, currentPosition);
