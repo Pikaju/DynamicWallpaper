@@ -16,7 +16,7 @@ Vec3f Sky::getColor(const Vec3f& direction) const
     float sunAngle = getLightDirection().dot(direction * -1.0f);
     float sunAmount = CLAMP(pow(sunAngle, 256.0f), 0.0f, 1.0f);
     //Vec3f sunColor(1.0f, 1.0f, 1.0f);
-    Vec3f sunColor(3.0f, 1.5f, 1.5f);
+    Vec3f sunColor(4.0f, 2.0f, 2.0f);
 
     return LERP(getColor() * (direction.y + 1.0f) / 1.0f, sunColor, sunAmount);
 }

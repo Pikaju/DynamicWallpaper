@@ -5,5 +5,5 @@
 class NoiseDitheringEffect
 {
 public:
-    void apply(RGBImage& image) const;
+    void apply(HDRImage& image) const;
 };

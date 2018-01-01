@@ -10,7 +10,7 @@ public:
     RayTracer();
     ~RayTracer();
 
-    void traceFullImage(RGBImage& image, Camera<float>& camera, const RayTracable* object) const;
+    void traceFullImage(HDRImage& image, Camera<float>& camera, const RayTracable* object) const;
 private:
     Vec3f traceRay(const Rayf& ray, const RayTracable* object) const;
 };
