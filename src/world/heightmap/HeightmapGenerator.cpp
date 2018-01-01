@@ -26,7 +26,6 @@ void HeightmapGenerator::generateChunk(Chunk<CHUNK_SIZE>* chunk, int cx, int cz,
     for (unsigned int x = 0; x < CHUNK_SIZE; x++) {
         for (unsigned int z = 0; z < CHUNK_SIZE; z++) {
             float height = heightSet[x * CHUNK_SIZE + z];
-            float biome = biomeSet[x * CHUNK_SIZE + z];
 
             chunk->setHeightAt(x, z, height * 64.0f);
         }
