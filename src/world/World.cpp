@@ -64,7 +64,7 @@ TraceResult World::trace(const Rayf& ray, const TraceParamter& parameter) const
 
                 // Lighting
                 Vec3f lightDirection = m_sky.getLightDirection();
-                Vec3f diffuseColor = m_heightmap.getColorAt(static_cast<unsigned int>(currentPosition.x), static_cast<unsigned int>(currentPosition.z));
+                Vec3f diffuseColor(0.3f);
                 Vec3f normal = m_heightmap.getNormalInterpolated(currentPosition.x, currentPosition.z);
                 float angle = normal.dot(lightDirection * -1.0f);
 
@@ -92,11 +92,11 @@ TraceResult World::trace(const Rayf& ray, const TraceParamter& parameter) const
     return result;
 }
 
-bool World::inShadow(const Vec3f& position) const
+bool World::inShadow(const Vec3f& point) const
 {
     Vec3f lightDirection = m_sky.getLightDirection();
     TraceParamter shadowParameter;
     shadowParameter.intersectionOnly = true;
-    TraceResult shadowResult = trace(Rayf(position, lightDirection * -1.0f), shadowParameter);
+    TraceResult shadowResult = trace(Rayf(point, lightDirection * -1.0f), shadowParameter);
     return shadowResult.intersects;
 }

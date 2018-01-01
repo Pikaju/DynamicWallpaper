@@ -22,7 +22,6 @@ void HeightmapGenerator::generate(Heightmap& heightmap, unsigned int seed)
 void HeightmapGenerator::generateChunk(Chunk<CHUNK_SIZE>* chunk, int cx, int cz, FastNoiseSIMD* noise)
 {
     float* heightSet = noise->GetSimplexFractalSet(cx * CHUNK_SIZE, 0, cz * CHUNK_SIZE, CHUNK_SIZE, 1, CHUNK_SIZE, 1.5f);
-    float* biomeSet = noise->GetSimplexFractalSet(cx * CHUNK_SIZE, 128.0f, cz * CHUNK_SIZE, CHUNK_SIZE, 1, CHUNK_SIZE, 1.5f);
 
     for (unsigned int x = 0; x < CHUNK_SIZE; x++) {
         for (unsigned int z = 0; z < CHUNK_SIZE; z++) {
@@ -30,11 +29,9 @@ void HeightmapGenerator::generateChunk(Chunk<CHUNK_SIZE>* chunk, int cx, int cz,
             float biome = biomeSet[x * CHUNK_SIZE + z];
 
             chunk->setHeightAt(x, z, height * 64.0f);
-            chunk->setColorAt(x, z, height + biome > 0.5f ? Vec3f(0.3f) : Vec3f(0.3f));
         }
     }
 
-    FastNoiseSIMD::FreeNoiseSet(biomeSet);
     FastNoiseSIMD::FreeNoiseSet(heightSet);
 
     /*float* n0 = noise->GetCellularSet(cx * CHUNK_SIZE, 0, cz * CHUNK_SIZE, CHUNK_SIZE, 1, CHUNK_SIZE, 1.0f);

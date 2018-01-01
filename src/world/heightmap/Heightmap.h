@@ -18,9 +18,6 @@ public:
     float getHeightInterpolated(float x, float z) const;
     Vec3f getNormalInterpolated(float x, float z) const;
 
-    Vec3f getColorAt(unsigned int x, unsigned int z) const;
-    Vec3f getColorInterpolated(float x, float z) const;
-
     inline unsigned int getGridWidth() const { return m_width * CHUNK_SIZE; }
     inline unsigned int getGridLength() const { return m_length * CHUNK_SIZE; }
 

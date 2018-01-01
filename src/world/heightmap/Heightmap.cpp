@@ -49,23 +49,3 @@ Vec3f Heightmap::getNormalInterpolated(float x, float z) const
     Vec3f e1 = (p10 - p00).normalized();
     return e0.cross(e1);
 }
-
-Vec3f Heightmap::getColorAt(unsigned int x, unsigned int z) const
-{
-    const Chunk<CHUNK_SIZE>* chunk = getChunkAt(x / CHUNK_SIZE, z / CHUNK_SIZE);
-    return chunk->getColorAt(x % CHUNK_SIZE, z % CHUNK_SIZE);
-}
-
-Vec3f Heightmap::getColorInterpolated(float x, float z) const
-{
-    if (!inBounds(x, z)) {
-        return 0.0f;
-    }
-    Vec3f h00 = getColorAt(static_cast<unsigned int>(floor(x)), static_cast<unsigned int>(floor(z)));
-    Vec3f h01 = getColorAt(static_cast<unsigned int>(floor(x)), static_cast<unsigned int>(ceil(z)));
-    Vec3f h10 = getColorAt(static_cast<unsigned int>(ceil(x)), static_cast<unsigned int>(floor(z)));
-    Vec3f h11 = getColorAt(static_cast<unsigned int>(ceil(x)), static_cast<unsigned int>(ceil(z)));
-    float fx = x - floor(x);
-    float fz = z - floor(z);
-    return LERP(LERP(h00, h10, fx), LERP(h01, h11, fx), fz);
-}
