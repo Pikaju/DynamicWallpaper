@@ -2,6 +2,8 @@
 
 #include "heightmap/HeightmapGenerator.h"
 
+#define CLAMP(x, min, max) (x < min ? min : (x > max ? max : x))
+
 World::World(unsigned int width, unsigned int length, unsigned int seed) : m_heightmap(width, length), m_sky(), m_fog(), m_water(-20.0f)
 {
     HeightmapGenerator::generate(m_heightmap, seed);
@@ -64,20 +66,18 @@ TraceResult World::trace(const Rayf& ray, const TraceParamter& parameter) const
                 // Lighting
                 Vec3f lightDirection = m_sky.getLightDirection();
                 Vec3f diffuseColor = m_heightmap.getColorAt(static_cast<unsigned int>(currentPosition.x), static_cast<unsigned int>(currentPosition.z));
-                //if (height > 16.0f) diffuseColor = Vec3f(1.0f);
                 Vec3f normal = m_heightmap.getNormalInterpolated(currentPosition.x, currentPosition.z);
                 float angle = normal.dot(lightDirection * -1.0f);
-                //diffuseColor *= std::max(angle, 0.0f) * 0.75f + 0.25f;
-                
+
                 // Shadow
                 if (angle > 0.0f && inShadow(Vec3f(currentPosition.x, height, currentPosition.z))) {
                     angle = -1.0f;
                 }
                 float light = angle > 0.0f ? (angle > 0.3f ? (angle > 0.6f ? 1.0f : 0.66f) : 0.33f) : 0.0f;
-                light = light * 0.25f + 0.75f;
+                // float light = CLAMP(angle * 8.0f, 0.0f, 1.0f);
+                light = light * 0.25f + 0.25f;
 
                 diffuseColor *= light;
-                diffuseColor *= 0.6f;
 
                 // Apply fog
                 result.color = m_fog.applyFog(diffuseColor, m_sky, ray.origin, currentPosition);
