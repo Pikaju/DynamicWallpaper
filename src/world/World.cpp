@@ -43,7 +43,7 @@ TraceResult World::trace(const Rayf& ray, const TraceParamter& parameter) const
             result.distance += distance;
 
             // Absorb light
-            result.color = (result.color + Vec3f(0.2f, 0.3f, 0.4f) * 0.4f) * Vec3f(0.8f);
+            result.color = (result.color + Vec3f(0.2f, 0.3f, 0.4f) * 0.4f) * Vec3f(0.6f);
 
             // Apply fog
             result.color = m_fog.applyFog(result.color, m_sky, ray.origin, currentPosition);
@@ -63,12 +63,12 @@ TraceResult World::trace(const Rayf& ray, const TraceParamter& parameter) const
 
                 // Lighting
                 Vec3f lightDirection = m_sky.getLightDirection();
-                Vec3f diffuseColor(0.2, 0.2f, 0.2f);
+                Vec3f diffuseColor = m_heightmap.getColorAt(static_cast<unsigned int>(currentPosition.x), static_cast<unsigned int>(currentPosition.z));
                 //if (height > 16.0f) diffuseColor = Vec3f(1.0f);
-                Vec3f normal = m_heightmap.getNormalAt(currentPosition.x, currentPosition.z);
+                Vec3f normal = m_heightmap.getNormalInterpolated(currentPosition.x, currentPosition.z);
                 float angle = normal.dot(lightDirection * -1.0f);
                 //diffuseColor *= std::max(angle, 0.0f) * 0.75f + 0.25f;
-
+                
                 // Shadow
                 if (angle > 0.0f && inShadow(Vec3f(currentPosition.x, height, currentPosition.z))) {
                     angle = -1.0f;
