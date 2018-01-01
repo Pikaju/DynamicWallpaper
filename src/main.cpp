@@ -27,7 +27,7 @@ int main(int argc, char** argv)
     RGBImage result(image.getWidth(), image.getHeight());
     image.toRGBImage(result);
 
-    result.writeToJPEG("Preview.jpg", 90);
+    result.writeToJPEG("Preview.jpg", 100);
 
     return 0;
 }

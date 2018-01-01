@@ -64,7 +64,7 @@ TraceResult World::trace(const Rayf& ray, const TraceParamter& parameter) const
 
                 // Lighting
                 Vec3f lightDirection = m_sky.getLightDirection();
-                Vec3f diffuseColor(0.3f);
+                Vec3f diffuseColor(0.4f);
                 Vec3f normal = m_heightmap.getNormalInterpolated(currentPosition.x, currentPosition.z);
                 float angle = normal.dot(lightDirection * -1.0f);
 

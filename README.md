@@ -5,3 +5,4 @@ This is a program that generates beautiful, minimalistic terrain images for diff
 ## Screenshots
 
 ![Screenshot unable to load](Preview.jpg?raw=true)
+![Screenshot unable to load](Preview2.jpg?raw=true)

@@ -19,5 +19,5 @@ Rayf Water::reflectRay(const Vec3f& position, const Vec3f& direction) const
 
 Vec3f Water::reflectColor(const Vec3f& color) const
 {
-    return color * 0.5f + Vec3f(0.2f, 0.1f, 0.02f);
+    return color * 0.5f;
 }
