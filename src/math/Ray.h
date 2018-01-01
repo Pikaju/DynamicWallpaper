@@ -27,6 +27,10 @@ public:
 
     inline ~Ray() {  }
 
+    /** March along the ray for a certain distance.
+     *  @param distance How far to follow the ray.
+     *  @return The position the origin would be at when following the direction.
+     */
     inline Vec3<T> march(float distance) const { return origin + direction * distance; }
 };
 

@@ -17,9 +17,11 @@ void RayTracer::traceFullImage(HDRImage& image, Camera<float>& camera, const Ray
 {
     for (unsigned int x = 0; x < image.getWidth(); x++) {
         for (unsigned int y = 0; y < image.getHeight(); y++) {
+            // Transform pixel coordinates to device coordinates, -1.0 to 1.0, left to right, bottom to top
             float dx = static_cast<float>(x) / static_cast<float>(image.getWidth() - 1) * 2.0f - 1.0f;
             float dy = -(static_cast<float>(y) / static_cast<float>(image.getHeight() - 1) * 2.0f - 1.0f);
 
+            // Transform device coordinates into a ray in world space
             Rayf ray = camera.getViewRay(dx, dy);
             image.setRGB(x, y, traceRay(ray, object));
         }

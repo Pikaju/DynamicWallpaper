@@ -10,6 +10,11 @@ public:
     RGBImage(unsigned int width, unsigned int height);
     ~RGBImage();
 
+    /** Write the image to a JPEG file.
+     *  @param file The path to the desired image file. The directory must exist.
+     *  @param quality The quality of the saved image. Must be 0 (low quality) to 100 (high quality).
+     *  Higher quality results in larger a file size.
+     */
     void writeToJPEG(const char* file, int quality) const;
 
     inline unsigned char getRed(unsigned int x, unsigned int y) const { return m_pixels[(x + y * m_width) * 3 + 0]; }
@@ -46,6 +51,10 @@ public:
     HDRImage(unsigned int width, unsigned int height);
     ~HDRImage();
 
+    /** Transforms the image to an RGBImage.
+     *  The color ranges are clamped between 0.0 and 1.0.
+     *  @param image The destination image. Must have the same width and height.
+     */
     void toRGBImage(RGBImage& image) const;
 
     inline float getRed(unsigned int x, unsigned int y) const { return m_pixels[(x + y * m_width) * 3 + 0]; }

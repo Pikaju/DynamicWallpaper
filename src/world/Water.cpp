@@ -10,8 +10,9 @@ Water::~Water()
 
 Rayf Water::reflectRay(const Vec3f& position, const Vec3f& direction) const
 {
+    // Reflect the direction vector along the surface normal
     Rayf ray(position, direction * Vec3f(1.0f, -1.0f, 1.0f));
-    // Correcting rays that have already reached heights below the surface
+    // Correct rays that have already reached heights below the surface
     ray.origin += ray.direction * (getHeight() - ray.origin.y);
     return ray;
 }

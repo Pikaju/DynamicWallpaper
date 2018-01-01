@@ -14,8 +14,25 @@ public:
     Heightmap(unsigned int width, unsigned int length);
     ~Heightmap();
 
+    /**
+     *  @param x The x-coordinate that should be checked, must be between 0 and width - 1.
+     *  @param z The z-coordinate that should be checked, must be between 0 and length - 1.
+     *  @return The height of the heightmap at a specific coordinate.
+     */
     float getHeightAt(unsigned int x, unsigned int z) const;
+
+    /** Linearly interpolates the height of the grid at a specific coordinate.
+     *  @param x The x-coordinate that should be checked.
+     *  @param z The z-coordinate that should be checked.
+     *  @return The height of the heightmap, or 0.0 if it is out of bounds.
+     */
     float getHeightInterpolated(float x, float z) const;
+
+    /** Linear interpolates the normal of the heightmap's surface at a specific coordinate.
+     *  @param x The x-coordinate that should be checked.
+     *  @param z The z-coordinate that should be checked.
+     *  @return The normal of the heightmap's surface, likely pointing straight up if the coordinate if out of bounds.
+     */
     Vec3f getNormalInterpolated(float x, float z) const;
 
     inline unsigned int getGridWidth() const { return m_width * CHUNK_SIZE; }
