@@ -19,7 +19,7 @@ int main(int argc, char** argv)
     rayTracer.traceFullImage(image, camera, &world);
 
     VignetteEffect vignette;
-    vignette.apply(image);
+    //vignette.apply(image);
 
     NoiseDitheringEffect noiseDithering;
     noiseDithering.apply(image);

@@ -64,7 +64,7 @@ TraceResult World::trace(const Rayf& ray, const TraceParamter& parameter) const
 
                 // Lighting
                 Vec3f lightDirection = m_sky.getLightDirection();
-                Vec3f diffuseColor(0.4f);
+                Vec3f diffuseColor(0.1f, 0.1f, 0.1f);
                 Vec3f normal = m_heightmap.getNormalInterpolated(currentPosition.x, currentPosition.z);
                 float angle = normal.dot(lightDirection * -1.0f);
 
@@ -76,7 +76,7 @@ TraceResult World::trace(const Rayf& ray, const TraceParamter& parameter) const
                 // float light = CLAMP(angle * 8.0f, 0.0f, 1.0f);
                 light = light * 0.25f + 0.25f;
 
-                diffuseColor *= light;
+                //diffuseColor *= light;
 
                 // Apply fog
                 result.color = m_fog.applyFog(diffuseColor, m_sky, ray.origin, currentPosition);

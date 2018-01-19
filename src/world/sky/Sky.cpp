@@ -23,8 +23,8 @@ Vec3f Sky::getColor(const Vec3f& direction) const
 
 Vec3f Sky::getColor() const
 {
-    //return Vec3f(0.2f, 0.6f, 0.5f);
-    return Vec3f(0.4f, 0.2f, 0.5f);
+    return Vec3f(0.2f, 0.6f, 0.5f);
+    //return Vec3f(0.4f, 0.2f, 0.5f);
     //return Vec3f(0.5f, 0.6f, 0.9f);
     //return Vec3f(0.5f, 0.3f, 0.4f);
 }
