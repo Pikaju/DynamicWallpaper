@@ -1,5 +1,5 @@
 CC = g++
-CC_FLAGS = -std=c++11
+CC_FLAGS = -std=c++11 -O2
 
 
 SOURCE_DIRECTORY = src
